@@ -5,3 +5,5 @@ This project helps you deploy a URL shortening service using Node JS, Firebase, 
 ## Helpful Tutorials
 
 1. https://firebase.google.com/docs/hosting/functions
+2. https://getbootstrap.com/docs/4.2/components/forms/
+3. https://bootsnipp.com/snippets/qr73D
