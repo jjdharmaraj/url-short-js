@@ -8,8 +8,8 @@ const footer = `</html>`;
 
 module.exports = {
   indexHtml: () => {
-    let indexBody = `<link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    let indexBody = `<link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
         </head>
         <body>
     <div class="d-flex justify-content-center align-items-center" id="main">
@@ -38,8 +38,8 @@ module.exports = {
     return header + redirectBody + footer;
   },
   notFoundHtml: () => {
-    let notFoundBody = `<link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    let notFoundBody = `<link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="d-flex justify-content-center align-items-center" id="main">
