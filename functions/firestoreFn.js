@@ -3,12 +3,14 @@ const htmlFiles = require("./htmlFiles");
 const { Firestore } = require("@google-cloud/firestore");
 const firestore = new Firestore();
 const admin = require("firebase-admin");
+const functions = require("firebase-functions");
+const siteConfig = functions.config();
 
-const collectionName = "goshareme";
+const collectionName = siteConfig.firestore.collection_name;
 
 module.exports = {
   /**
-   * Add url to the goshareme collection
+   * Add url to the collection
    *
    * https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#add
    *
@@ -56,7 +58,7 @@ module.exports = {
     });
   },
   /**
-   * Get short url from the goshareme collection
+   * Get short url from the collection
    *
    * https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#get
    * https://googleapis.dev/nodejs/firestore/latest/QuerySnapshot.html
