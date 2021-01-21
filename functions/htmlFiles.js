@@ -12,16 +12,65 @@ module.exports = {
   indexHtml: () => {
     let indexBody = `<body>
     <div class="d-flex justify-content-center align-items-center" id="main">
-    <form>
-        <div class="form-group">
-        <label for="formGroupExampleInput">Example label</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-            <small id="shortLinkExpire" class="form-text text-muted">This short link will expire in 60 days.</small>
+      <div class="container">
+        <div class="col">
+          <form id="url-form" style="margin-bottom: 16px">
+            <div class="form-group">
+              <label for="formGroupExampleInput">Get a short URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="formGroupExampleInput"
+                name="longUrlInput"
+                placeholder="Example input"
+              />
+              <small id="shortLinkExpire" class="form-text text-muted"
+                >This short link will expire in 60 days.</small
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <div class="col" id="shortUrlResult">
+          <span style="padding: 8px"></span>
+        </div>
+      </div>
     </div>
-    </body>`;
+    <script>
+      const form = document.querySelector("#url-form");
+      form.addEventListener("submit", (event) => {
+        // disable default action
+        event.preventDefault();
+
+        let longUrl = new FormData(form).get("longUrlInput");
+        var raw = {longUrl};
+
+        var requestOptions = {
+          method: "POST",
+          body: JSON.stringify(raw),
+          redirect: "follow",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        let shortUrlResultText = document.querySelector("#shortUrlResult");
+
+        fetch('https://${siteConfig.site.url}/api', requestOptions)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log(result);
+            let data = JSON.parse(result);
+            let shortUrl = 'https://${siteConfig.site.url}/' + data.docId;
+            shortUrlResultText.innerHTML = '<span class="bg-success text-white" style="padding: 8px">' + shortUrl + '</span>';
+          })
+          .catch((error) => {
+            console.log("error", error);
+            shortUrlResultText.innerHTML = '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
+          });
+      });
+    </script>
+  </body>`;
     return header(`Home - ${siteConfig.site.url}`) + indexBody + footer;
   },
   /**

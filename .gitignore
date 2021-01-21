@@ -143,3 +143,4 @@ firebase-debug.log*
 # ---- Custom ----
 *.zip
 env_variables.yaml
+test.html
