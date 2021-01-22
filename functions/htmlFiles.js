@@ -10,6 +10,7 @@ module.exports = {
    * @return {String} HTML to send back to browser.
    */
   indexHtml: () => {
+    const regex = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
     let indexBody = `<body>
     <div class="d-flex justify-content-center align-items-center" id="main">
       <div class="container">
@@ -38,39 +39,60 @@ module.exports = {
     </div>
     <script>
       const form = document.querySelector("#url-form");
+      let shortUrlResultText = document.querySelector("#shortUrlResult");
+
       form.addEventListener("submit", (event) => {
-        // disable default action
         event.preventDefault();
 
         let longUrl = new FormData(form).get("longUrlInput");
-        var raw = {longUrl};
 
-        var requestOptions = {
-          method: "POST",
-          body: JSON.stringify(raw),
-          redirect: "follow",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
+        let validUrl = is_url(longUrl);
 
-        let shortUrlResultText = document.querySelector("#shortUrlResult");
+        if (validUrl == true) {
+          shortUrlResultText.innerHTML =
+            '<span class="bg-primary text-white" style="padding: 8px">Working on your short URL...</span>';
+          var raw = { longUrl };
 
-        fetch('https://${siteConfig.site.url}/api', requestOptions)
-          .then((response) => response.text())
-          .then((result) => {
-            console.log(result);
-            let data = JSON.parse(result);
-            let shortUrl = 'https://${siteConfig.site.url}/' + data.docId;
-            shortUrlResultText.innerHTML = '<span class="bg-success text-white" style="padding: 8px">' + shortUrl + '</span>';
-          })
-          .catch((error) => {
-            console.log("error", error);
-            shortUrlResultText.innerHTML = '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
-          });
+          var requestOptions = {
+            method: "POST",
+            body: JSON.stringify(raw),
+            redirect: "follow",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+          fetch('https://${siteConfig.site.url}/api', requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+              console.log(result);
+              let data = JSON.parse(result);
+              let shortUrl = 'https://${siteConfig.site.url}' + data.docId;
+              shortUrlResultText.innerHTML =
+                '<span class="bg-success text-white" style="padding: 8px">' +
+                shortUrl +
+                "</span>";
+            })
+            .catch((error) => {
+              console.log("error", error);
+              shortUrlResultText.innerHTML =
+                '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
+            });
+        } else {
+          shortUrlResultText.innerHTML =
+            '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but that is not a valid URL.</span>';
+        }
       });
+      function is_url(str) {
+        regexp = ${regex};
+        if (regexp.test(str)) {
+          return true;
+        } else {
+          return false;
+        }
+      };
     </script>
   </body>`;
+
     return header(`Home - ${siteConfig.site.url}`) + indexBody + footer;
   },
   /**
