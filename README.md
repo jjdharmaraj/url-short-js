@@ -28,6 +28,5 @@ Use `firebase functions:config:get` if you want to check your work.
 ## TODOs
 
 1. Expand Postman collection
-2. Verify URLs are actually URLs both on front and backend before creating short URLs.
+2. Vanity short URLs
 3. Cron job to make links expire after 60 days.
-4. Vanity short URLs

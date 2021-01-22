@@ -38,7 +38,17 @@ module.exports = {
               .add(data)
               .then((documentReference) => {
                 //https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
-                resolve({ status: "SUCCESS", docId: documentReference.id });
+                if (documentReference.id) {
+                  resolve({
+                    status: "SUCCESS",
+                    shortUrl: `https://${siteConfig.site.url}/${documentReference.id}`,
+                  });
+                } else {
+                  reject({
+                    status: "FIRESTORE_ERROR",
+                    error: "DOCUMENT_ID_IS_MISSING",
+                  });
+                }
               })
               .catch((error) => {
                 reject({ status: "ADD_SHORT_URL_NEW_DOC_ERROR", error });
@@ -49,7 +59,11 @@ module.exports = {
             querySnapshot.forEach((documentSnapshot) => {
               docId = documentSnapshot.id;
             });
-            resolve({ status: "SUCCESS", docId });
+            //Should I run the docId check again
+            resolve({
+              status: "SUCCESS",
+              shortUrl: `https://${siteConfig.site.url}/${docId}`,
+            });
           }
         })
         .catch((error) => {
