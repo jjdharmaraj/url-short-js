@@ -64,13 +64,17 @@ module.exports = {
           fetch('https://${siteConfig.site.url}/api', requestOptions)
             .then((response) => response.text())
             .then((result) => {
-              console.log(result);
               let data = JSON.parse(result);
-              let shortUrl = 'https://${siteConfig.site.url}' + data.docId;
-              shortUrlResultText.innerHTML =
-                '<span class="bg-success text-white" style="padding: 8px">' +
-                shortUrl +
-                "</span>";
+              if (data.shortUrl) {
+                shortUrlResultText.innerHTML =
+                  '<span class="bg-success text-white" style="padding: 8px">' +
+                  data.shortUrl +
+                  "</span>";
+              } else {
+                console.log("error", data);
+                shortUrlResultText.innerHTML =
+                  '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
+              }
             })
             .catch((error) => {
               console.log("error", error);

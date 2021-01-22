@@ -36,7 +36,7 @@ app.post("/api", (req, res) => {
         });
     })
     .catch((error) => {
-      res.json({ status: "ERROR", error });
+      res.json({ status: "INCOMING_DATA_ERROR", error });
     });
 });
 
