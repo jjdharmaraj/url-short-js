@@ -50,6 +50,8 @@ app.use(function (req, res, next) {
  *
  * https://www.w3resource.com/javascript-exercises/javascript-regexp-exercise-9.php
  *
+ * TODO: this only checks against http[s] || ftp, there could be other theoretical protocols
+ *
  * @param {String} str URL to check.
  *
  * @return {Boolean} Was the input a valid URL or not.
@@ -77,9 +79,14 @@ const checkIncomingUrl = (req) => {
       req.body.longUrl &&
       typeof req.body.longUrl == "string"
     ) {
-      let validUrl = is_url(req.body.longUrl);
+      let longUrl = req.body.longUrl;
+      let validUrl = is_url(longUrl);
       if (validUrl == true) {
-        resolve(req.body.longUrl);
+        // http://jsfiddle.net/ostapische/qXv7H/
+        if (longUrl.search(/^http[s]|ftp?\:\/\//) == -1) {
+          longUrl = "http://" + longUrl;
+        }
+        resolve(longUrl);
       } else {
         reject("NOT_A_VALID_URL");
       }
