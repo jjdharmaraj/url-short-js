@@ -138,15 +138,28 @@ module.exports = {
     let redirectBody = `<body onload="measureUrlRedirect('${redirectUrl}')">
     <noscript>I am sorry, but you do not have JavaScript enabled.  Click <a href="${redirectUrl}">here</a> to visit your destination.</noscript>
     <script>
-        var measureUrlRedirect = function(url) {
-        gtag('event', 'share', {
-            'event_category': 'engagement',
-            'event_label': url,
-            'transport_type': 'beacon',
-            'event_callback': function(){document.location = url;},
-            'non_interaction': true
+    var measureUrlRedirect = function (url) {
+      sendAnalyticsEvent(url)
+        .then((data) => {
+          console.log(data);
+          return location.replace(url);
+        })
+        .catch((err) => {
+          console.log(err);
+          return location.replace(url);
         });
-        }
+    };
+    function sendAnalyticsEvent(url) {
+      return new Promise((resolve) => {
+        gtag("event", "share", {
+          event_category: "engagement",
+          event_label: url,
+          transport_type: "beacon",
+          event_callback: resolve(),
+          non_interaction: true,
+        });
+      });
+    }
       </script>
     </body>`;
     return redirectHeader(`${siteConfig.site.url}`) + redirectBody + footer;
