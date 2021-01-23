@@ -26,8 +26,14 @@ app.get("/:shortUrl", (req, res) => {
 app.post("/api", (req, res) => {
   checkIncomingUrl(req)
     .then((longUrl) => {
+      let vanityUrl;
+      if (req.body.vanityUrl) {
+        vanityUrl = req.body.vanityUrl;
+      } else {
+        vanityUrl = undefined;
+      }
       return firestoreFn
-        .addShortUrlDoc(longUrl)
+        .addShortUrlDoc(longUrl, vanityUrl)
         .then((documentReference) => {
           return res.json(documentReference);
         })
