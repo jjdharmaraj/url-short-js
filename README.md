@@ -24,9 +24,3 @@ Use `firebase functions:config:get` if you want to check your work.
 2. https://firebase.google.com/docs/functions/config-env
 3. https://getbootstrap.com/docs/4.2/components/forms/
 4. https://bootsnipp.com/snippets/qr73D
-
-## TODOs
-
-1. Expand Postman collection
-2. Vanity short URLs
-3. Cron job to make links expire after 60 days.

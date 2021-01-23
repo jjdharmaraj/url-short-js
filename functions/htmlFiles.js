@@ -23,17 +23,17 @@ module.exports = {
                 class="form-control"
                 id="formGroupExampleInput"
                 name="longUrlInput"
-                placeholder="Example input"
+                placeholder="What is the long URL"
               />
               <small id="shortLinkExpire" class="form-text text-muted"
-                >This short link will expire in 60 days.</small
+                >If you build something and no one knows about it, then does it really exist ;).</small
               >
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
         <div class="col" id="shortUrlResult">
-          <span style="padding: 8px"></span>
+          <div style="padding: 8px"></div>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@ module.exports = {
 
         if (validUrl == true) {
           shortUrlResultText.innerHTML =
-            '<span class="bg-primary text-white" style="padding: 8px">Working on your short URL...</span>';
+            '<div class="bg-primary text-white" style="padding: 8px">Working on your short URL...</div>';
           var raw = { longUrl };
 
           var requestOptions = {
@@ -67,23 +67,23 @@ module.exports = {
               let data = JSON.parse(result);
               if (data.shortUrl) {
                 shortUrlResultText.innerHTML =
-                  '<span class="bg-success text-white" style="padding: 8px">' +
+                  '<div class="bg-success text-white" style="padding: 8px">' +
                   data.shortUrl +
-                  "</span>";
+                  "</div>";
               } else {
                 console.log("error", data);
                 shortUrlResultText.innerHTML =
-                  '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
+                  '<div class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</div>';
               }
             })
             .catch((error) => {
               console.log("error", error);
               shortUrlResultText.innerHTML =
-                '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</span>';
+                '<div class="bg-danger text-white" style="padding: 8px">I am sorry, but we ran into an error on our end!</div>';
             });
         } else {
           shortUrlResultText.innerHTML =
-            '<span class="bg-danger text-white" style="padding: 8px">I am sorry, but that is not a valid URL.</span>';
+            '<div class="bg-danger text-white" style="padding: 8px">I am sorry, but that is not a valid URL.</div>';
         }
       });
       function is_url(str) {

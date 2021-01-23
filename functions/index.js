@@ -26,6 +26,8 @@ app.get("/:shortUrl", (req, res) => {
 app.post("/api", (req, res) => {
   checkIncomingUrl(req)
     .then((longUrl) => {
+      //TODO: add check if the vanityUrl is a valid docId
+      //https://firebase.google.com/docs/firestore/quotas#collections_documents_and_fields
       let vanityUrl;
       if (req.body.vanityUrl) {
         vanityUrl = req.body.vanityUrl;

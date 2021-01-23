@@ -24,10 +24,8 @@ module.exports = {
       return getShortUrl(vanityUrl)
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
-            //TODO: use set to create a doc with id
             return setShortUrl(longUrl, vanityUrl);
           } else {
-            //TODO: return json that the vanity url already exists
             return { status: "VANITY_URL_ALREADY_EXISTS" };
           }
         })
@@ -137,7 +135,10 @@ function addShortUrl(longUrl) {
               reject({ status: "ADD_SHORT_URL_NEW_DOC_ERROR", error });
             });
         } else {
-          //TODO: The longUrl already exists, should we update the addedTime so it doesn't get deleted??
+          /**
+           * TODO: The longUrl already exists, should we update the addedTime
+           * so it doesn't get deleted when/if I add a cron job??
+           */
           let docId;
           querySnapshot.forEach((documentSnapshot) => {
             docId = documentSnapshot.id;
