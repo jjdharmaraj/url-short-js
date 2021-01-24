@@ -64,6 +64,36 @@ module.exports = {
         return htmlFiles.notFoundHtml();
       });
   },
+  /**
+   * Get all documents in the short url collection.
+   *
+   * https://firebase.google.com/docs/firestore/query-data/get-data#get_all_documents_in_a_collection
+   *
+   * @return {Array} Array of shortUrls and longUrls.
+   */
+  getAllShortUrlDocs: () => {
+    //TODO: should I add a limit and offset since at scale there could be a lot of docs
+    return new Promise((resolve, reject) => {
+      firestore
+        .collection(collectionName)
+        .get()
+        .then((querySnapshot) => {
+          let documentArray = [];
+          //TODO: should I add the time to the output
+          querySnapshot.forEach((documentSnapshot) => {
+            let data = documentSnapshot.data();
+            documentArray.push({
+              shortUrl: `https://${siteConfig.site.url}/${documentSnapshot.id}`,
+              longUrl: data.longUrl,
+            });
+          });
+          resolve(documentArray);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
 };
 /**
  * Get short url from the collection
