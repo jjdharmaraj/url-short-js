@@ -23,7 +23,7 @@ app.get("/:shortUrl", (req, res) => {
 });
 
 //Add more short URLs to firestore.
-app.post("/api", (req, res) => {
+app.post("/createShortUrl", (req, res) => {
   checkIncomingUrl(req)
     .then((longUrl) => {
       //TODO: add check if the vanityUrl is a valid docId
@@ -44,7 +44,17 @@ app.post("/api", (req, res) => {
         });
     })
     .catch((error) => {
-      res.json({ status: "INCOMING_DATA_ERROR", error });
+      return res.json({ status: "INCOMING_DATA_ERROR", error });
+    });
+});
+app.post("/getAllShortUrls", (req, res) => {
+  firestoreFn
+    .getAllShortUrlDocs()
+    .then((shortUrlArray) => {
+      return res.json({ status: "SUCCESS", shortUrlArray });
+    })
+    .catch((error) => {
+      return res.json({ status: "GET_ALL_SHORT_URLS_ERROR", error });
     });
 });
 
