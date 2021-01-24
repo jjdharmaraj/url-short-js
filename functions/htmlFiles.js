@@ -61,7 +61,7 @@ module.exports = {
               "Content-Type": "application/json",
             },
           };
-          fetch('https://${siteConfig.site.url}/api', requestOptions)
+          fetch('https://${siteConfig.site.url}/createShortUrl', requestOptions)
             .then((response) => response.text())
             .then((result) => {
               let data = JSON.parse(result);
