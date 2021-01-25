@@ -26,7 +26,7 @@ module.exports = {
                 placeholder="What is the long URL"
               />
               <small id="shortLinkExpire" class="form-text text-muted"
-                >If you build something and no one knows about it, then does it really exist ;).</small
+                >If you build something and no one knows about it, then does it really exist ;)</small
               >
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -67,7 +67,7 @@ module.exports = {
               let data = JSON.parse(result);
               if (data.shortUrl) {
                 shortUrlResultText.innerHTML =
-                  '<div class="bg-success text-white" style="padding: 8px">' +
+                  '<div class="bg-success text-white" style="padding: 8px" id="shortUrlText" onclick="copyText()">' +
                   data.shortUrl +
                   "</div>";
               } else {
@@ -94,9 +94,18 @@ module.exports = {
           return false;
         }
       };
+      function copyText() {
+        const id = "shortUrlText";
+        let sel = window.getSelection();
+        sel.removeAllRanges();
+        let range = document.createRange();
+        range.selectNode(document.getElementById(id));
+        sel.addRange(range);
+        document.execCommand("copy");
+      }
     </script>
   </body>`;
-
+    //TODO: add a tooltip to the copyText function without jquery
     return header(`Home - ${siteConfig.site.url}`) + indexBody + footer;
   },
   /**
