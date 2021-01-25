@@ -26,7 +26,7 @@ module.exports = {
                 placeholder="What is the long URL"
               />
               <small id="shortLinkExpire" class="form-text text-muted"
-                >If you build something and no one knows about it, then does it really exist ;).</small
+                >If you build something and no one knows about it, then does it really exist ;)</small
               >
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
